@@ -145,7 +145,76 @@ declare interface eventstore {
 }
 
 
-declare function eventstore<A extends EventStoreEvent>(): EventStore<A>
+declare function eventstore<A extends EventStoreEvent>(
+    options?:
+        // default is in-memory
+        | {
+        type: 'mongodb',
+        host?: string                       // 'localhost'
+        port?: number                       // 27017
+        dbName?: string                     // 'eventstore'
+        eventsCollectionName?: string       // 'events'
+        snapshotsCollectionName?: string    // 'snapshots'
+        transactionsCollectionName?: string // 'transactions'
+        timeout?: number                    // 10000
+        maxSnapshotsCount?: number          // e.g. 3 , defaultly will keep all snapshots
+        authSource?: string                 // 'authedicationDatabase'
+        username?: string                   // 'technicalDbUser'
+        password?: string                   // 'secret'
+        url?: string                        // 'mongodb://user:pass@host:port/db?opts'
+        positionsCollectionName?: string    // e.g. 'positions', defaultly wont keep position
+    } | {
+        type: 'redis',
+        host?: string // 'localhost',                          // optional
+        port?: number // 6379,                                 // optional
+        db?: number // 0,                                      // optional
+        prefix?: string // 'eventstore',                       // optional
+        eventsCollectionName?: string // 'events',             // optional
+        snapshotsCollectionName?: string // 'snapshots',       // optional
+        timeout?: number // 10000                              // optional
+        maxSnapshotsCount?: number // 3                        // optional, defaultly will keep all snapshots
+        password?: string // 'secret'                          // optional
+    } | {
+        type: 'tingodb',
+        dbPath?: string // '/path/to/my/db/file',              // optional
+        eventsCollectionName?: string // 'events',             // optional
+        snapshotsCollectionName?: string // 'snapshots',       // optional
+        transactionsCollectionName?: string // 'transactions', // optional
+        timeout?: number // 10000                              // optional
+        maxSnapshotsCount?: number // 3                        // optional, defaultly will keep all snapshots
+    } | {
+        type: 'elasticsearch',
+        host?: string // 'localhost:9200',                     // optional
+        indexName?: string // 'eventstore',                    // optional
+        eventsTypeName?: string // 'events',                   // optional
+        snapshotsTypeName?: string // 'snapshots',             // optional
+        log?: string // 'warning',                             // optional
+        maxSearchResults?: number // 10000                     // optional
+        maxSnapshotsCount?: number // 3                        // optional, defaultly will keep all snapshots
+    } | {
+        type: 'azuretable',
+        storageAccount: string // 'nodeeventstore',
+        storageAccessKey: string // 'aXJaod96t980AbNwG9Vh6T3ewPQnvMWAn289Wft9RTv+heXQBxLsY3Z4w66CI7NN12+1HUnHM8S3sUbcI5zctg==',
+        storageTableHost: string // 'https://nodeeventstore.table.core.windows.net/',
+        eventsTableName?: string // 'events',             // optional
+        snapshotsTableName?: string // 'snapshots',       // optional
+        timeout?: number // 10000                              // optional
+    } | {
+        type: 'dynamodb',
+        eventsTableName?: string // 'events',                  // optional
+        snapshotsTableName?: string // 'snapshots',            // optional
+        undispatchedEventsTableName?: string // 'undispatched' // optional
+        EventsReadCapacityUnits?: number // 1,                 // optional
+        EventsWriteCapacityUnits?: number // 3,                // optional
+        SnapshotReadCapacityUnits?: number // 1,               // optional
+        SnapshotWriteCapacityUnits?: number // 3,              // optional
+        UndispatchedEventsReadCapacityUnits?: number // 1,     // optional
+        UndispatchedEventsReadCapacityUnits?: number // 1,     // optional
+        useUndispatchedEventsTable?: boolean // true            // optional
+        eventsTableStreamEnabled?: boolean // false             // optional
+        eventsTableStreamViewType?: string // 'NEW_IMAGE'      // optional
+    }
+): EventStore<A>
 
 declare namespace eventstore {
     export class Store<A extends EventStoreEvent> extends StoreBase<A> {
