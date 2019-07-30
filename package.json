@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "eventstore": "^1.14.1"
+    "eventstore": "^1.14.41"
   },
   "devDependencies": {
     "@types/events": "^1.2.0"
