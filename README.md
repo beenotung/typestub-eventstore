@@ -1,6 +1,9 @@
 # typestub-eventstore
 [![npm Package Version](https://img.shields.io/npm/v/typestub-eventstore.svg?maxAge=2592000)](https://www.npmjs.com/package/typestub-eventstore)
 
+## Original Package Documentation
+https://eventstore.js.org/
+
 ## To Do
 The type of Event related api is incorrect, the event returned is
 ```
